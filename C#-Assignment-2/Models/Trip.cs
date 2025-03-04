@@ -1,0 +1,24 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace C__Assignment_2.Models
+{
+    public class Trip
+    {
+        //Primary key
+        public int TripId { get; set; }
+
+        [Required(ErrorMessage = "Please enter a destination")] //ADD CONSTRAINTS
+        public string? Destination { get; set; }
+
+        [Required(ErrorMessage = "Please enter a start date.")] //CONVERT TO DATE!
+        public string? StartDate { get; set; }
+
+        [Required(ErrorMessage = "Please enter an end date.")]       //CONVERT TO DATE!
+        public string? EndDate { get; set; }
+
+        public string? Accommodation { get; set; }    //nullable
+
+        [Required(ErrorMessage = "Please enter an activity.")]
+        public string? ToDo { get; set; }
+    }
+}

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Linq;
 using C__Assignment_2.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,27 +7,23 @@ namespace C__Assignment_2.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        //get dbcontext
+        private TripContext context {  get; set; }
 
-        public HomeController(ILogger<HomeController> logger)
+        //constructor
+        public HomeController(TripContext context)
         {
-            _logger = logger;
+            this.context = context;
         }
 
+        //action method
         public IActionResult Index()
         {
-            return View();
+            //linq query organizes by trip id
+            var trips = context.Trips.OrderBy(m => m.TripId).ToList();
+            return View(trips);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        
     }
 }
