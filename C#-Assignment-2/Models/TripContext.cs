@@ -24,7 +24,11 @@ namespace C__Assignment_2.Models
                     StartDate = "start",
                     EndDate = "end",
                     Accommodation = "accomodate",
-                    ToDo = "activity"
+                    AccomodationPhone = "testphone",
+                    AccommodationEmail = "testemail",
+                    ThingToDo1 = "activity1",
+                    ThingToDo2 = "activity2",
+                    ThingToDo3 = "activity3"
                 }
                 );
         }

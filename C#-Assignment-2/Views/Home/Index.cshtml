@@ -3,34 +3,36 @@
     ViewData["Title"] = "Muh trips";
 }
 
-<h2>Trip List</h2>
 
-<a asp-controller="Trip" asp.action="Add">Add new trip</a>
-<table class="d-lg-table table-bordered table-striped">
+
+<a asp-controller="Home" asp-action="Add" class="fw-bold text-decoration-none">Add new trip</a>
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>TripId</th>
             <th>Destination</th>
             <th>StartDate</th>
             <th>EndDate</th>
-            <th>Accomodation</th>
-            <th>ToDo</th>
+            <th>Accomodations</th>
+            <th>Things To Do</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var trip in Model) {
             <tr>
-                <td>@trip.TripId</td>
                 <td>@trip.Destination</td>
                 <td>@trip.StartDate</td>
                 <td>@trip.EndDate</td>
-                <td>@trip.Accommodation</td>
-                <td>@trip.ToDo</td>
-                <td>
-                    <a asp-controller="Trip" asp-action="Edit"
-                        asp-route-id="@trip.TripId">Edit</a>
-                    <a asp-controller="Trip" asp-action="Delete"
-                       asp-route-id="@trip.TripId">Delete</a>
+                @if (!string.IsNullOrEmpty(trip.Accommodation)) {
+                    <td>@trip.Accommodation<br>
+                        Phone: @trip.AccomodationPhone | 
+                        Email: @trip.AccommodationEmail
+                    </td>
+                } else {
+                    <td></td>
+                }
+                <td>@trip.ThingToDo1<br>
+                    @trip.ThingToDo2<br>
+                    @trip.ThingToDo3
                 </td>
             </tr>
         }

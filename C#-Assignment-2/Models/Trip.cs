@@ -12,13 +12,22 @@ namespace C__Assignment_2.Models
 
         [Required(ErrorMessage = "Please enter a start date.")] //CONVERT TO DATE!
         public string? StartDate { get; set; }
+        var parsedStartDate = Date.Parse()
 
         [Required(ErrorMessage = "Please enter an end date.")]       //CONVERT TO DATE!
         public string? EndDate { get; set; }
 
+
+        //Accommodataions
         public string? Accommodation { get; set; }    //nullable
 
-        [Required(ErrorMessage = "Please enter an activity.")]
-        public string? ToDo { get; set; }
+        public string? AccomodationPhone { get; set; }
+
+        public string? AccommodationEmail { get; set; }
+
+        //Activities
+        public string? ThingToDo1 { get; set; }
+        public string? ThingToDo2 { get; set; }
+        public string? ThingToDo3 { get; set; }
     }
 }

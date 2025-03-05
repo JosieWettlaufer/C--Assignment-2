@@ -1,0 +1,15 @@
+﻿@model Trip
+@{
+    ViewBag.Title = "Delete Trip";
+}
+
+<h2>Confirm Deletion</h2>
+<h3>@Model.Destination (@Model.Destination)</h3>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="TripId" />
+
+    <button type="submit" class="btn btn-dark">Delete</button>
+    <a asp-controller="Home" asp-action="Index"
+        class="btn btn-dark">Cancel</a>    
+</form>
