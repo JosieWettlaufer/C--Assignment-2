@@ -4,133 +4,165 @@ using C__Assignment_2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
-//CONVERT TO PRG PATTERRN????????
 
 namespace C__Assignment_2.Controllers
 {
     public class HomeController : Controller
     {
-        //get dbcontext
+        //get trip dbcontext
         private TripContext context {  get; set; }
 
-        //constructor
+        //controller constructor to receive dbcontext
         public HomeController(TripContext context)
         {
             this.context = context;
         }
 
-        //action method
+        //Index Action Method (Home Page)
         public IActionResult Index()
         {
-            //Clears possible existing tempdata
+            //linq query organizes by trips by id
+            var trips = context.Trips.OrderBy(m => m.TripId).ToList();
+
+            //Displays trip destination subheading if just added new trip
+            if (TempData["Destination"] != null)
+            {
+                //Set subheading
+                ViewData["Subhead"] = "Trip to " + TempData["Destination"] + " added.";
+            }
+
+            //Clears pre-existing tempdata
             TempData.Clear();
 
-            //linq query organizes by trip id
-            var trips = context.Trips.OrderBy(m => m.TripId).ToList();
+            //Returns Index View with trip list
             return View(trips);
+        }
+
+        //Adds new trip (Form 1)
+        [HttpGet]
+        public IActionResult AddNewTrip()
+        {
+            //Populates Sub header for Add Page
+            ViewData["Subhead"] = "Add Trip Destination and Dates";
+
+            //Returns view
+            return View("Form1", new Trip());
         }
 
         //Next button Add1
         [HttpPost]
-        public IActionResult Add(Trip trip)
+        public IActionResult Form1Post(Trip trip)
         {
-            //Store user inputs in TempData
-            TempData["Destination"] = trip.Destination;
-            TempData["Accommodation"] = trip.Accommodation;
-            TempData["StartDate"] = trip.StartDate;//.ToString("yyyy-MM-dd");
-            TempData["EndDate"] = trip.EndDate;//.ToString("yyyy-MM-dd");
+            if (ModelState.IsValid) {
 
-            //Set subheading
-            ViewData["Subhead"] = "Add Info for " + trip.Accommodation;
-             
-            if (ModelState.IsValid && !string.IsNullOrEmpty(trip.Accommodation))
-            {
+                //Store user inputs in TempData
+                TempData["Destination"] = trip.Destination;
+                TempData["Accommodation"] = trip.Accommodation;
+                TempData["StartDate"] = trip.StartDate;//.ToString("yyyy-MM-dd");
+                TempData["EndDate"] = trip.EndDate;//.ToString("yyyy-MM-dd");
                 //retain for next request
                 TempData.Keep();
 
-                //proceed to next page
-                return View("Add2", trip);
-            }
-            else if (ModelState.IsValid)
-            {
+                if (!string.IsNullOrEmpty(trip.Accommodation))
+                {
+                    //Set subheading
+                    ViewData["Subhead"] = "Add Info for " + trip.Accommodation;
 
+                    //Calls Add2 action method
+                    return RedirectToAction("Add2");
+                }
 
-                //retain for next request
-                TempData.Keep();
-
+                //Sets appropriate subhead
                 ViewData["Subhead"] = "Add Things to do in " + trip.Destination;
 
-                return View("Add3", trip);
+                //Calls Add3 action method
+                return RedirectToAction("Add3");
             }
             else
             {
-                //clear subheading
-                ViewData["Subhead"] = "";
-
-                //remain on first add page
-                return View(trip);
+                //remain on Form1 page
+                return View("Form1", trip);
             }
+        }
+
+        // Show Add2 Form (GET) - Load Accommodation details
+        [HttpGet]
+        public IActionResult Add2()
+        {
+            //pass tempdata to view through trip object
+            var trip = new Trip
+            {
+                Destination = TempData["Destination"]?.ToString(),
+                Accommodation = TempData["Accommodation"]?.ToString(),
+                StartDate = TempData["StartDate"]?.ToString(),
+                EndDate = TempData["EndDate"]?.ToString()
+            };
+
+            ViewData["Subhead"] = "Add Info for " + TempData["Accommodation"];
+
+            // Keep TempData for the next action
+            TempData.Keep();
+
+            return View("Add2", trip);
         }
 
         //Next button Add2
         [HttpPost]
         public IActionResult Add2(Trip trip)
         {
-            TempData["AccommodationPhone"] = trip.AccomodationPhone;
-            TempData["AccommodationEmail"] = trip.AccommodationEmail;
-
-
             if (ModelState.IsValid)
             {
+                TempData["AccommodationPhone"] = trip.AccomodationPhone;
+                TempData["AccommodationEmail"] = trip.AccommodationEmail;
                 //retain for next request
                 TempData.Keep();
 
                 ViewData["Subhead"] = "Add Things to do in " + trip.Destination;
 
-                return View("Add3", trip);
-               
+                return RedirectToAction("Add3");
             }
-            else
+
+            return View("Add2", trip);
+        }
+
+        // Show Add3 Form (GET) - Load To-Do details
+        [HttpGet]
+        public IActionResult Add3()
+        {
+            //pass tempdata to view through trip object
+            var trip = new Trip
             {
-                return View();
-            }
+                Destination = TempData["Destination"]?.ToString(),
+                Accommodation = TempData["Accommodation"]?.ToString(),
+                StartDate = TempData["StartDate"]?.ToString(),
+                EndDate = TempData["EndDate"]?.ToString(),
+                AccomodationPhone = TempData["AccommodationPhone"]?.ToString(),
+                AccommodationEmail = TempData["AccommodationEmail"]?.ToString()
+            };
+
+            ViewData["Subhead"] = "Add Things to do in " + TempData["Destination"];
+
+            // Keep TempData for the next action
+            TempData.Keep();
+
+            return View("Add3", trip);
         }
 
         //Save button Add3
         [HttpPost]
         public IActionResult SaveTrip(Trip trip)
         {
-            TempData["ThingToDo1"] = trip.ThingToDo1;
-            TempData["ThingToDo2"] = trip.ThingToDo2;
-            TempData["ThingToDo3"] = trip.ThingToDo3;
-
-            //Set subheading
-            ViewData["Subhead"] = "Trip to " + trip.Destination + " added.";
-
             if (ModelState.IsValid)
             {
                 context.Trips.Add(trip);
                 //save to db
                 context.SaveChanges();
 
+
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return View("Add3", trip);
-            }
-            
-        }
 
-        //Add trip
-        [HttpGet]
-        public IActionResult Add()
-        {
-            
-
-            ViewData["Subhead"] = "Add Trip Destination and Dates";
-
-            return View("Add", new Trip());
+            return View("Add3", trip);
         }
     }
 }

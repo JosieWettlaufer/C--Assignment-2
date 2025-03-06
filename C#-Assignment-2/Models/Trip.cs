@@ -12,7 +12,6 @@ namespace C__Assignment_2.Models
 
         [Required(ErrorMessage = "Please enter a start date.")] //CONVERT TO DATE!
         public string? StartDate { get; set; }
-        var parsedStartDate = Date.Parse()
 
         [Required(ErrorMessage = "Please enter an end date.")]       //CONVERT TO DATE!
         public string? EndDate { get; set; }
