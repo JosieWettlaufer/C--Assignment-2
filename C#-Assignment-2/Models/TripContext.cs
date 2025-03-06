@@ -21,8 +21,8 @@ namespace C__Assignment_2.Models
                 {
                     TripId = 1,
                     Destination = "test dest",
-                    StartDate = "start",
-                    EndDate = "end",
+                    StartDate = DateTime.Parse("2004/01/01"),
+                    EndDate = DateTime.Parse("2024/01/01"),
                     Accommodation = "accomodate",
                     AccomodationPhone = "testphone",
                     AccommodationEmail = "testemail",

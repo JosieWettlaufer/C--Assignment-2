@@ -16,8 +16,8 @@
         @foreach (var trip in Model) {
             <tr>
                 <td>@trip.Destination</td>
-                <td>@trip.StartDate</td>
-                <td>@trip.EndDate</td>
+                <td>@trip.StartDate?.ToString("yyyy-MM-dd")</td>
+                <td>@trip.EndDate?.ToString("yyyy-MM-dd")</td>
                 <!--Displays accommodation info, if no accomodation information, placeholder cell used instead-->
                 @if (!string.IsNullOrEmpty(trip.Accommodation)) {
                     <td>@trip.Accommodation<br>

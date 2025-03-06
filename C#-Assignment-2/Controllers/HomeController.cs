@@ -58,8 +58,8 @@ namespace C__Assignment_2.Controllers
                 //Store user inputs in TempData
                 TempData["Destination"] = trip.Destination;
                 TempData["Accommodation"] = trip.Accommodation;
-                TempData["StartDate"] = trip.StartDate;//.ToString("yyyy-MM-dd");
-                TempData["EndDate"] = trip.EndDate;//.ToString("yyyy-MM-dd");
+                TempData["StartDate"] = trip.StartDate;
+                TempData["EndDate"] = trip.EndDate;
                 //retain for next request
                 TempData.Keep();
 
@@ -69,14 +69,14 @@ namespace C__Assignment_2.Controllers
                     ViewData["Subhead"] = "Add Info for " + trip.Accommodation;
 
                     //Calls Add2 action method
-                    return RedirectToAction("Add2");
+                    return RedirectToAction("ShowForm2");
                 }
 
                 //Sets appropriate subhead
                 ViewData["Subhead"] = "Add Things to do in " + trip.Destination;
 
                 //Calls Add3 action method
-                return RedirectToAction("Add3");
+                return RedirectToAction("ShowForm3");
             }
             else
             {
@@ -87,15 +87,15 @@ namespace C__Assignment_2.Controllers
 
         // Show Add2 Form (GET) - Load Accommodation details
         [HttpGet]
-        public IActionResult Add2()
+        public IActionResult ShowForm2()
         {
             //pass tempdata to view through trip object
             var trip = new Trip
             {
                 Destination = TempData["Destination"]?.ToString(),
                 Accommodation = TempData["Accommodation"]?.ToString(),
-                StartDate = TempData["StartDate"]?.ToString(),
-                EndDate = TempData["EndDate"]?.ToString()
+                StartDate = DateTime.Parse(TempData["StartDate"]?.ToString()),
+                EndDate = DateTime.Parse(TempData["EndDate"]?.ToString())
             };
 
             ViewData["Subhead"] = "Add Info for " + TempData["Accommodation"];
@@ -103,12 +103,12 @@ namespace C__Assignment_2.Controllers
             // Keep TempData for the next action
             TempData.Keep();
 
-            return View("Add2", trip);
+            return View("Form2", trip);
         }
 
         //Next button Add2
         [HttpPost]
-        public IActionResult Add2(Trip trip)
+        public IActionResult Form2Post (Trip trip)
         {
             if (ModelState.IsValid)
             {
@@ -119,23 +119,23 @@ namespace C__Assignment_2.Controllers
 
                 ViewData["Subhead"] = "Add Things to do in " + trip.Destination;
 
-                return RedirectToAction("Add3");
+                return RedirectToAction("ShowForm3");
             }
 
-            return View("Add2", trip);
+            return View("Form2", trip);
         }
 
         // Show Add3 Form (GET) - Load To-Do details
         [HttpGet]
-        public IActionResult Add3()
+        public IActionResult ShowForm3()
         {
             //pass tempdata to view through trip object
             var trip = new Trip
             {
                 Destination = TempData["Destination"]?.ToString(),
                 Accommodation = TempData["Accommodation"]?.ToString(),
-                StartDate = TempData["StartDate"]?.ToString(),
-                EndDate = TempData["EndDate"]?.ToString(),
+                StartDate = DateTime.Parse(TempData["StartDate"]?.ToString()),
+                EndDate = DateTime.Parse(TempData["EndDate"]?.ToString()),
                 AccomodationPhone = TempData["AccommodationPhone"]?.ToString(),
                 AccommodationEmail = TempData["AccommodationEmail"]?.ToString()
             };
@@ -145,12 +145,12 @@ namespace C__Assignment_2.Controllers
             // Keep TempData for the next action
             TempData.Keep();
 
-            return View("Add3", trip);
+            return View("Form3", trip);
         }
 
         //Save button Add3
         [HttpPost]
-        public IActionResult SaveTrip(Trip trip)
+        public IActionResult Form3Post(Trip trip)
         {
             if (ModelState.IsValid)
             {
@@ -162,7 +162,7 @@ namespace C__Assignment_2.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View("Add3", trip);
+            return View("Form3", trip);
         }
     }
 }
