@@ -117,8 +117,6 @@ namespace C__Assignment_2.Controllers
                 //retain for next request
                 TempData.Keep();
 
-                ViewData["Subhead"] = "Add Things to do in " + trip.Destination;
-
                 return RedirectToAction("ShowForm3");
             }
 

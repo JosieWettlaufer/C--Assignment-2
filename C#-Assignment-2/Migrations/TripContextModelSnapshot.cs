@@ -31,17 +31,21 @@ namespace C__Assignment_2.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TripId"));
 
                     b.Property<string>("Accommodation")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("AccommodationEmail")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("AccomodationPhone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Destination")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
@@ -50,13 +54,16 @@ namespace C__Assignment_2.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ThingToDo1")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ThingToDo2")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ThingToDo3")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("TripId");
 
@@ -66,15 +73,15 @@ namespace C__Assignment_2.Migrations
                         new
                         {
                             TripId = 1,
-                            Accommodation = "accomodate",
-                            AccommodationEmail = "testemail",
-                            AccomodationPhone = "testphone",
-                            Destination = "test dest",
+                            Accommodation = "Generic Hotel",
+                            AccommodationEmail = "generic@gmail.com",
+                            AccomodationPhone = "111-111-1111",
+                            Destination = "New York",
                             EndDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StartDate = new DateTime(2004, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ThingToDo1 = "activity1",
-                            ThingToDo2 = "activity2",
-                            ThingToDo3 = "activity3"
+                            ThingToDo1 = "wake up",
+                            ThingToDo2 = "do things",
+                            ThingToDo3 = "do more things"
                         });
                 });
 #pragma warning restore 612, 618
